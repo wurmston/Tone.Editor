@@ -1,0 +1,28 @@
+{
+  "name": "tone-editor",
+  "version": "1.0.0",
+  "description": "A GUI overlay for developing sites using Tone.js",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "del": "^2.2.2",
+    "gm": "^1.23.0",
+    "gulp": "^3.9.1",
+    "gulp-gm": "^0.0.8",
+    "gulp-image-resize": "^0.11.0",
+    "gulp-livereload": "^3.8.1",
+    "livereload": "^0.6.0"
+  },
+  "devDependencies": {
+    "gulp-concat": "^2.6.1"
+  },
+  "scripts": {
+    "test": "gulp"
+  },
+  "keywords": [
+    "audio",
+    "tone",
+    "gui"
+  ],
+  "author": "willurmston",
+  "license": "MIT"
+}
