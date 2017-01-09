@@ -1,0 +1,36 @@
+html {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  margin: 0; }
+
+body {
+  margin: 0;
+  position: fixed;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+}
+
+* {
+  -webkit-backface-visibility: hidden; }
+
+div#tone-editor_container{
+  width: 400px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: lightGray;
+}
+
+div#tone-editor_container div.tone-editor_component {
+  background: darkGray;
+}
+
+div#tone-editor_container div.tone-editor_component p.tone-editor_parameter-gui {
+  border-bottom: 2px solid gray;
+  padding-left: 8px;
+}
+
+/*# sourceMappingURL=main.css.map */
