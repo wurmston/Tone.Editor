@@ -1,3 +1,8 @@
+var reverb = new Tone.Freeverb({
+  "roomSize": 0.7,
+	"dampening": 4300
+}).toMaster()
+
 var synth = new Tone.MonoSynth({
   oscillator: {
       type: "square"
@@ -21,7 +26,7 @@ var synth = new Tone.MonoSynth({
       baseFrequency: 300,
       octaves: 3.2
   }
-})
+}).connect(reverb)
 
 Tone.Editor.add(synth)
 

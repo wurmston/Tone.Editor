@@ -1,206 +1,220 @@
-(function(){
- var Editor = {
-  components: [],
-  hasBeenInitialized: false,
-  // the main user-facing function
-  add: function(component1, component2, component3) {
-   var documentFragment = document.createDocumentFragment()
-   var components = arguments
-   for(var i=0;i<components.length;i++) {
-    console.log(arguments[i])
-    var thisComponent = new Component(components[i])
-    Editor.components.push( thisComponent )
-    documentFragment.appendChild( thisComponent.element )
-   }
-   injectUI(documentFragment)
-  }
- }
-
- function initialize() {
-  Editor.containerElement = document.createElement('div')
-  Editor.containerElement.setAttribute('id','tone-editor_container')
-  //inject style
-  //
-  document.body.appendChild(Editor.containerElement)
-  Editor.hasBeenInitialized = true
- }
-
- // constructor for each UI component (one per Tone Component)
- function Component(toneComponent) {
-  this.element = document.createElement('div')
-  this.element.className = 'tone-editor_component'
-  this.toneComponent = toneComponent
-  //get top level attributes
-  this.flattenedComponent = toneComponent.get()
-  this.parameters = []
-  // display top level attributes
-  // for(parameterName in this.flattenedComponent) {
-  //  var parameter = toneComponent[parameterName]
-  //  if ( extractedData.expose === true ) { // filter out parameters that shouldn't be exposed
-  //   var thisParameterGUI = new ParameterGUI( extractedData )
-  //   this.parameters.push( thisParameterGUI )
-  //   this.element.appendChild( thisParameterGUI.element )
-  //  }
-  // }
-  //check for subcomponents
-  var params = {}
-  for (parameterName in this.toneComponent) {
-    // determine if Tone
-    params[parameterName] = getToneObjectInfo(parameterName, this.toneComponent[parameterName])
-  }
-  console.log(params)
- }
-
- // constructor for each ToneComponent parameter (i.e. one for each Instrument parameter). returns an object with elements that can be appended to a dom fragment and added
- function ParameterGUI( extractedData ) {
-  this.ToneParam = extractedData.originalObject
-  this.type = extractedData.type
-  this.value = extractedData.value
-  this.element = document.createElement('p')
-  this.element.className = 'tone-editor_parameter-gui '+this.type
-  var innerText = document.createTextNode(parameterName+': '+this.value)
-  this.element.appendChild(innerText)
- }
-
- // main init function. builds dom elements and injects them into page
- function injectUI(documentFragment) {
-  if (!this.hasBeenInitialized) {
-   initialize()
-  }
-  Editor.containerElement.appendChild(documentFragment)
- }
-
- //extra bits
- function isFunction( val ) {
-   return typeof val === 'function';
- }
-
-function getToneObjectInfo(objectName, thisToneObject) {
-  if (thisToneObject instanceof Tone) {
-
-    // check against many Tone Classes
-
-    var toneClasses = { //copied from docs
-     Instrument: {
-       baseClass: Tone.Instrument,
-       classes: ["AMSynth", "DuoSynth", "FMSynth", "Instrument", "MembraneSynth", "MetalSynth", "MonoSynth", "Monophonic", "NoiseSynth", "PluckSynth", "PolySynth", "Sampler", "Synth"],
-     },
-     Effect: {
-       baseClass: Tone.Effect,
-       classes: ["AutoFilter", "AutoPanner", "AutoWah", "BitCrusher", "Chebyshev", "Chorus", "Convolver", "Distortion", "Effect", "FeedbackDelay", "FeedbackEffect", "Freeverb", "JCReverb", "MidSideEffect", "Phaser", "PingPongDelay", "PitchShift", "StereoEffect", "StereoFeedbackEffect", "StereoWidener", "StereoXFeedbackEffect", "Tremolo", "Vibrato"],
-     },
-     Source: {
-       baseClass: Tone.Source,
-       classes: ["AMOscillator", "BufferSource", "FMOscillator", "FatOscillator", "GrainPlayer", "MultiPlayer", "Noise", "OmniOscillator", "Oscillator", "PWMOscillator", "Player", "PulseOscillator", "Source", "UserMedia"],
-     },
-     Core: {
-       baseClass: Tone.Core,
-       classes: [ 'AmplitudeEnvelope',  'Analyser',  'Compressor',  'CrossFade',  'EQ3',  'Envelope',  'FeedbackCombFilter',  'Filter',  'Follower',  'FrequencyEnvelope',  'Gate',  'LFO',  'Limiter',  'LowpassCombFilter',  'Merge',  'Meter',  'MidSideCompressor',  'MidSideMerge',  'MidSideSplit', 'Mono',  'MultibandCompressor',  'MultibandSplit',  'PanVol',  'Panner',  'Panner3D',  'ScaledEnvelope',  'Split',  'Volume' ]
-     }
+(function() {
+    var Editor = {
+        components: [],
+        hasBeenInitialized: false,
+        // the main user-facing function
+        add: function(component1, component2, component3) {
+            var documentFragment = document.createDocumentFragment()
+            var components = arguments
+            for (var i = 0; i < components.length; i++) {
+                console.log(arguments[i])
+                var thisComponent = new Component(components[i])
+                Editor.components.push(thisComponent)
+                documentFragment.appendChild(thisComponent.element)
+            }
+            injectUI(documentFragment)
+            return Editor
+        },
+        remove: function(component) {
+            for (var i = 0; i < components.length; i++) {
+                if (Object.is(components[i], component)) {
+                    // delete Element
+                    // remove from components
+                }
+            }
+            return Editor
+        },
+        set: function(settings) {
+          // apply settings
+          return Editor
+        }
     }
 
-    for (toneCategoryName in toneClasses) {
-      var toneCategory = toneClasses[toneCategoryName]
-      if (thisToneObject instanceof toneCategory.baseClass) {
-        var info = {
-         category: toneCategoryName,
-         type: toneCategoryName, // signal, function, number
-        //  value: thisToneObject.get()
-        }
-        for (var i=0;i<toneCategory.classes.length;i++) {
-          if (thisToneObject instanceof Tone[toneCategory.classes[i]] ) value.type = toneCategory.classes[i]
-        }
-        var value = thisToneObject.get()
-        if (typeof value !== 'number') {
-          for (propertyName in thisToneObject) {
-            // recursive, hold on to ur hat
-            value = getToneObjectInfo(propertyName, thisToneObject[propertyName])
-          }
-        }
-        info.value = value
-        console.log(info)
-      }
-
+    function initialize() {
+        Editor.containerElement = document.createElement('div')
+        Editor.containerElement.setAttribute('id', 'tone-editor_container')
+        //inject style
+        //
+        document.body.appendChild(Editor.containerElement)
+        Editor.hasBeenInitialized = true
     }
-    return info
-  } else {
-    return false
-  }
-}
+
+    // constructor for each UI component (one per Tone Component)
+    function Component(toneComponent) {
+        this.element = document.createElement('div')
+        this.element.className = 'tone-editor_component'
+        this.toneComponent = toneComponent
+        //get top level attributes
+        this.flattenedComponent = toneComponent.get()
+        this.parameters = []
+        // display top level attributes
+        // for(parameterName in this.flattenedComponent) {
+        //  var parameter = toneComponent[parameterName]
+        //  if ( extractedData.expose === true ) { // filter out parameters that shouldn't be exposed
+        //   var thisParameterGUI = new ParameterGUI( extractedData )
+        //   this.parameters.push( thisParameterGUI )
+        //   this.element.appendChild( thisParameterGUI.element )
+        //  }
+        // }
+        //check for subcomponents
+        var params = {}
+        for (parameterName in this.toneComponent) {
+            // determine if Tone
+            params[parameterName] = getToneObjectInfo(parameterName, this.toneComponent[parameterName])
+        }
+        console.log(params)
+    }
+
+    // constructor for each ToneComponent parameter (i.e. one for each Instrument parameter). returns an object with elements that can be appended to a dom fragment and added
+    function ParameterGUI(extractedData) {
+        this.ToneParam = extractedData.originalObject
+        this.type = extractedData.type
+        this.value = extractedData.value
+        this.element = document.createElement('p')
+        this.element.className = 'tone-editor_parameter-gui ' + this.type
+        var innerText = document.createTextNode(parameterName + ': ' + this.value)
+        this.element.appendChild(innerText)
+    }
+
+    // main init function. builds dom elements and injects them into page
+    function injectUI(documentFragment) {
+        if (!this.hasBeenInitialized) {
+            initialize()
+        }
+        Editor.containerElement.appendChild(documentFragment)
+    }
+
+    //extra bits
+    function isFunction(val) {
+        return typeof val === 'function';
+    }
+
+    function getToneObjectInfo(objectName, thisToneObject) {
+        if (thisToneObject instanceof Tone) {
+
+            // check against many Tone Classes
+
+            var toneClasses = { //copied from docs
+                Instrument: {
+                    baseClass: Tone.Instrument,
+                    classes: ["AMSynth", "DuoSynth", "FMSynth", "Instrument", "MembraneSynth", "MetalSynth", "MonoSynth", "Monophonic", "NoiseSynth", "PluckSynth", "PolySynth", "Sampler", "Synth"],
+                },
+                Effect: {
+                    baseClass: Tone.Effect,
+                    classes: ["AutoFilter", "AutoPanner", "AutoWah", "BitCrusher", "Chebyshev", "Chorus", "Convolver", "Distortion", "Effect", "FeedbackDelay", "FeedbackEffect", "Freeverb", "JCReverb", "MidSideEffect", "Phaser", "PingPongDelay", "PitchShift", "StereoEffect", "StereoFeedbackEffect", "StereoWidener", "StereoXFeedbackEffect", "Tremolo", "Vibrato"],
+                },
+                Source: {
+                    baseClass: Tone.Source,
+                    classes: ["AMOscillator", "BufferSource", "FMOscillator", "FatOscillator", "GrainPlayer", "MultiPlayer", "Noise", "OmniOscillator", "Oscillator", "PWMOscillator", "Player", "PulseOscillator", "Source", "UserMedia"],
+                },
+                Core: {
+                    baseClass: Tone.Core,
+                    classes: ['AmplitudeEnvelope', 'Analyser', 'Compressor', 'CrossFade', 'EQ3', 'Envelope', 'FeedbackCombFilter', 'Filter', 'Follower', 'FrequencyEnvelope', 'Gate', 'LFO', 'Limiter', 'LowpassCombFilter', 'Merge', 'Meter', 'MidSideCompressor', 'MidSideMerge', 'MidSideSplit', 'Mono', 'MultibandCompressor', 'MultibandSplit', 'PanVol', 'Panner', 'Panner3D', 'ScaledEnvelope', 'Split', 'Volume']
+                }
+            }
+
+            for (toneCategoryName in toneClasses) {
+                var toneCategory = toneClasses[toneCategoryName]
+                if (thisToneObject instanceof toneCategory.baseClass) {
+                    var info = {
+                        category: toneCategoryName,
+                        type: toneCategoryName, // signal, function, number
+                        //  value: thisToneObject.get()
+                    }
+                    for (var i = 0; i < toneCategory.classes.length; i++) {
+                        if (thisToneObject instanceof Tone[toneCategory.classes[i]]) value.type = toneCategory.classes[i]
+                    }
+                    var value = thisToneObject.get()
+                    if (typeof value !== 'number') {
+                        for (propertyName in thisToneObject) {
+                            // recursive, hold on to ur hat
+                            value = getToneObjectInfo(propertyName, thisToneObject[propertyName])
+                        }
+                    }
+                    info.value = value
+                    console.log(info)
+                }
+
+            }
+            return info
+        } else {
+            return false
+        }
+    }
 
 
- // extract value of parameter. return undefined if invalid
- // function extractthisToneObject( parameterName, thisToneObject ) {
- //  var value = {
- //   expose: false,
- //   type: '', // signal, function, number
- //   value: undefined
- //  }
- //  if (parameterName.indexOf('_') !== -1) {
- //   value = {
- //    expose: false,
- //    type: 'internal', // signal, function, number
- //    value: undefined
- //   }
- //  } else if (isFunction(thisToneObject)) {
- //   value = {
- //    expose: false,
- //    type: 'Function', // signal, function, number
- //    value: undefined
- //   }
- //  } else if (typeof thisToneObject === 'number') {
- //   value = {
- //    expose: true,
- //    type: 'number', // signal, function, number
- //    value: thisToneObject
- //   }
- //  } else if (thisToneObject instanceof Tone.Param) {
- //   value = {
- //    expose: true,
- //    type: 'Param', // signal, function, number
- //    value: thisToneObject.value,
- //    units: thisToneObject.units
- //   }
- //  } else if (thisToneObject instanceof Tone.Effect) {
- //   value = {
- //    expose: true,
- //    type: 'Effect', // signal, function, number
- //    value: thisToneObject.value,
- //    units: thisToneObject.units
- //   }
- //  } else if (thisToneObject instanceof Tone.Instrument) {
- //   value = {
- //    expose: true,
- //    type: 'Instrument', // signal, function, number
- //    value: thisToneObject.value,
- //    units: thisToneObject.units
- //   }
- //  } else if (thisToneObject instanceof AudioParam) {
- //   value = {
- //    expose: true,
- //    type: 'AudioParam', // signal, function, number
- //    value: thisToneObject.value
- //   }
- //  // } else if (typeof thisToneObject === 'object'){ //not signal or audioparam but a Tone component
- //   // value = {
- //   //  expose: true,
- //   //  type: 'Object', // signal, function, number
- //   //  value: thisToneObject.value
- //   // }
- //   // // iterate one layer deeper
- //   // for (parameterName2 in thisToneObject) {
- //   //  if (parameter)
- //   //  var nestedValue = extractthisToneObject(parameterName2, thisToneObject[parameterName2])
- //   // }
- //
- //
- //  }
- //  value.name = parameterName
- //  value.originalObject = thisToneObject
- //  if (value.type !== 'Function') console.log(value)
- //  return value
- // }
+    // extract value of parameter. return undefined if invalid
+    // function extractthisToneObject( parameterName, thisToneObject ) {
+    //  var value = {
+    //   expose: false,
+    //   type: '', // signal, function, number
+    //   value: undefined
+    //  }
+    //  if (parameterName.indexOf('_') !== -1) {
+    //   value = {
+    //    expose: false,
+    //    type: 'internal', // signal, function, number
+    //    value: undefined
+    //   }
+    //  } else if (isFunction(thisToneObject)) {
+    //   value = {
+    //    expose: false,
+    //    type: 'Function', // signal, function, number
+    //    value: undefined
+    //   }
+    //  } else if (typeof thisToneObject === 'number') {
+    //   value = {
+    //    expose: true,
+    //    type: 'number', // signal, function, number
+    //    value: thisToneObject
+    //   }
+    //  } else if (thisToneObject instanceof Tone.Param) {
+    //   value = {
+    //    expose: true,
+    //    type: 'Param', // signal, function, number
+    //    value: thisToneObject.value,
+    //    units: thisToneObject.units
+    //   }
+    //  } else if (thisToneObject instanceof Tone.Effect) {
+    //   value = {
+    //    expose: true,
+    //    type: 'Effect', // signal, function, number
+    //    value: thisToneObject.value,
+    //    units: thisToneObject.units
+    //   }
+    //  } else if (thisToneObject instanceof Tone.Instrument) {
+    //   value = {
+    //    expose: true,
+    //    type: 'Instrument', // signal, function, number
+    //    value: thisToneObject.value,
+    //    units: thisToneObject.units
+    //   }
+    //  } else if (thisToneObject instanceof AudioParam) {
+    //   value = {
+    //    expose: true,
+    //    type: 'AudioParam', // signal, function, number
+    //    value: thisToneObject.value
+    //   }
+    //  // } else if (typeof thisToneObject === 'object'){ //not signal or audioparam but a Tone component
+    //   // value = {
+    //   //  expose: true,
+    //   //  type: 'Object', // signal, function, number
+    //   //  value: thisToneObject.value
+    //   // }
+    //   // // iterate one layer deeper
+    //   // for (parameterName2 in thisToneObject) {
+    //   //  if (parameter)
+    //   //  var nestedValue = extractthisToneObject(parameterName2, thisToneObject[parameterName2])
+    //   // }
+    //
+    //
+    //  }
+    //  value.name = parameterName
+    //  value.originalObject = thisToneObject
+    //  if (value.type !== 'Function') console.log(value)
+    //  return value
+    // }
 
 
- Tone.Editor = Editor
+    Tone.Editor = Editor
 })()
