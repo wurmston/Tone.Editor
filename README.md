@@ -2,7 +2,7 @@
 A Graphical User Interace overlay for developing websites using [Tone.js](github.com/https://github.com/Tonejs/Tone.js). Use it during design and development, then throw it out when you're done.
 
 ## Why?
-Tone.js is a fun, flexible and hi-performance web music framework. However, because it's text-based, the process of making music with it can be a drag. It might take 20 page refreshes to get a synth sound that you like. A GUI layer solves this problem, allowing you fiddle with parameters of all your Tone objects in real time.
+Tone.js is a fun, flexible and hi-performance web music framework. However, because it's text-based, the process of making music with it can be a drag. It might take 20 page refreshes to get a synth sound that you like. A GUI layer solves this problem, allowing you fiddle with parameters of all your Tone objects in real time, then copy the changes into your code.
 
 ## Usage
 Include Tone-Editor.min.js in your page *after* Tone.js.
@@ -68,4 +68,4 @@ Tone.Editor.add(synth, reverb)
 ```
 You can also manipulate Editor from your browser's console if your objects are accessible from the global scope
 
-# This is early in development, so no guarantees. If you have feedback on these ideas I'd love to hear it.
+## This is early in development, so no guarantees. If you have feedback on these ideas I'd love to hear it.
