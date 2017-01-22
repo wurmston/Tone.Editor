@@ -18,8 +18,8 @@
       remove: function(component) {
         for (var i = 0; i < components.length; i++) {
           if (Object.is(components[i], component)) {
-              // delete Element
-              // remove from components
+            // delete Element
+            // remove from components
           }
         }
         return Editor
@@ -48,25 +48,41 @@
       //get top level attributes
       this.component = toneComponent.get()
 
+      //create attribute DOM elements
       for (parameterName in this.component) {
-				// wrap attribute
-				this.component[parameterName] = new ParameterGUI(this.component[parameterName])
+        //check for nested parameters
+        if (typeof this.component[parameterName] === 'object') {
+          var parentObject = this.component[parameterName]
+          var group = document.createElement('div')
+          group.className = 'tone-editor_parameter-gui attribute-group'
+
+          for (parameterName in this.component[parameterName]) {
+            parentObject[parameterName] = new ParameterGUI(parameterName, parentObject[parameterName])
+            this.component[parameterName].updateValue()
+            console.log(parentObject[parameterName])
+            group.append(parentObject[parameterName])
+          }
+        } else {
+          this.component[parameterName] = new ParameterGUI(parameterName, this.component[parameterName])
+          this.component[parameterName].updateValue()
+        }
+
       }
+
     }
 
     // constructor for each ToneComponent parameter (i.e. one for each Instrument parameter). returns an object with elements that can be appended to a dom fragment and added
-    function ParameterGUI(extractedData) {
-      this.ToneParam = extractedData.originalObject
-      this.type = extractedData.type
-      this.value = extractedData.value
-			this.refresh = function() {
-				// update value in DOM
-
-			}
-      this.element = document.createElement('p')
+    function ParameterGUI(attributeName, attribute) {
+      console.log(attribute)
+      // this.ToneParam = attribute.component
+      this.type = attribute.type || 'slider'
+      this.value = attribute.value
+      this.element = '<div class="tone-editor_parameter-gui'+this.type+'"><span>'+this.parameterName+'</span><span>'+this.value+'</span></div>'
+      this.updateValue = function() {
+        // update value in DOM
+        // this.element.childNodes[1].append()
+      }
       this.element.className = 'tone-editor_parameter-gui ' + this.type
-      var innerText = document.createTextNode(parameterName + ': ' + this.value)
-      this.element.appendChild(innerText)
     }
 
     // main init function. builds dom elements and injects them into page
