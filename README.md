@@ -42,10 +42,9 @@ var synth = new Tone.MonoSynth({
 
 // Use Tone.Editor.add() to initialize the editor and add your Tone objects
 Tone.Editor.add(synth, reverb)
-
-// Any changes made to the GUI will directly effect your Tone objects.
-// To save your changes, click the **copy** button and your presets will be copied to your clipboard.
 ```
+Any changes made to the GUI will directly effect your Tone objects.
+To save your changes, click the **copy** button and your presets will be copied to your clipboard.
 ## Other Methods
 ```javascript
 // Remove objects from Editor
