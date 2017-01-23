@@ -68,4 +68,4 @@ Tone.Editor.add(synth, reverb)
 ```
 You can also manipulate Editor from your browser's console if your objects are accessible from the global scope
 
-## This is early in development, so no guarantees. If you have feedback on these ideas I'd love to hear it.
+### This is early in development, so no guarantees. If you have feedback on these ideas I'd love to hear it.
