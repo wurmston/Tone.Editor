@@ -28,6 +28,26 @@ var synth = new Tone.MonoSynth({
     }
 }).connect(reverb)
 
-Tone.Editor.add(synth)
+// Tone.Editor.add(synth)
+//
+// console.log(Tone.Editor)
 
-console.log(Tone.Editor)
+var containerElement = document.querySelectorAll('div.tone-editor_container')[0]
+console.log(containerElement)
+
+containerElement.addEventListener('click', function(e){
+  if (e.target.hasClass('expand-triangle')) {
+    if (e.target.hasClass('expanded')) {
+      e.target.removeClass('expanded')
+      e.target.parentElement.parentElement.removeClass('expanded')
+    } else {
+      e.target.addClass('expanded')
+      e.target.parentElement.parentElement.addClass('expanded')
+    }
+  } else if (e.target.hasClass('component-class')) {
+    // OPEN PAGE IN DOCS
+    window.open('https://tonejs.github.io/docs/#'+e.target.innerHTML, '_blank')
+  } else if (e.target.hasClass('copy-all')) {
+    e.target.style.animation = 'tone-editor_copied 1s'
+  }
+})
