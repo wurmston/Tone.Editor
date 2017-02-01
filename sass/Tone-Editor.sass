@@ -13,62 +13,66 @@ body
   width: 100vw
   height: 100vh
 
-div
-  &.tone-editor_container
-    position: relative
-    width: 300px
-    height: 100vh
-    position: fixed
-    top: 0
-    left: 0
-    background: white
-    padding: 10px
-    box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.14)
+div.tone-editor_container
+  position: relative
+  width: 300px
+  height: 100vh
+  position: fixed
+  top: 0
+  left: 0
+  background: white
+  padding: 10px
+  box-shadow: 2px 0px 8px rgba(0, 0, 0, 0.14)
 
-    div.tone-editor_component
-      position: relative
-      background: darkGray
-      padding-left: 8px
-      font-size: 20px
-      max-height: 40px
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1)
-      overflow: hidden
+  *
+    user-select: none
+    font-family: 'Inconsolata'
 
-  &.subcomponent
+  div.component
     position: relative
     background: darkGray
     padding-left: 8px
     font-size: 20px
     max-height: 40px
     border-bottom: 1px solid rgba(0, 0, 0, 0.1)
-    overflow: hidden
-
-  &.tone-editor_container div.tone-editor_component
     border-top: 1px solid rgba(255, 255, 255, 0.5)
     box-shadow: 2px 2px 8px rgba(100, 100, 100, 0.2)
+    overflow: hidden
 
-  &.subcomponent
+  div.component.expanded
+    max-height: 3000px
+
+  div.subcomponent
+    position: relative
+    background: darkGray
+    padding-left: 8px
+    font-size: 20px
+    max-height: 40px
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1)
     background-color: rgba(0, 0, 0, 0.2)
+    overflow: hidden
 
-  &.tone-editor_container div.tone-editor_component.expanded
+    h3.component-name
+      font-weight: 200
+
+  div.subcomponent.expanded
     padding-bottom: 8px
     max-height: 3000px
 
-  &.subcomponent.expanded
-    max-height: 3000px
+  div.component-header
+    position: relative
+    width: 100%
+    display: flex
+    align-items: center
+    height: 40px
 
-  &.tone-editor_container
-    div.component-header
-      position: relative
-      width: 100%
-      display: flex
-      align-items: center
-      height: 40px
-      h3
-        margin: 0
-        font-size: 20px
+    h3
+      margin: 0
+      font-size: 20px
+
     h3.component-name
       font-weight: 800
+
     a.component-class
       margin-left: 10px
       opacity: 0.4
@@ -79,102 +83,128 @@ div
       font-weight: 200
       cursor: pointer
 
-      &:hover
-        text-decoration: underline
-        cursor: pointer
+    a.component-class:hover
+      text-decoration: underline
+      cursor: pointer
 
-    div
-      &.expand-triangle
-        width: 20px
-        height: 40px
-        background-image: url(../img/expand-triangle.png)
-        background-size: contain
-        background-position: center
-        background-repeat: no-repeat
-        position: absolute
-        right: 10px
-        top: 0
-        opacity: 0.9
-        cursor: pointer
-        transition: transform 0.05s
+    div.expand-triangle
+      width: 20px
+      height: 40px
+      background-image: url(../img/expand-triangle.png)
+      background-size: contain
+      background-position: center
+      background-repeat: no-repeat
+      position: absolute
+      right: 10px
+      top: 0
+      opacity: 0.9
+      cursor: pointer
+      transition: transform 0.05s
 
-        &.expanded
-          transform: rotateZ(-90deg)
-          transition: transform 0.05s
+    div.expand-triangle.expanded
+      transform: rotateZ(-90deg)
+      transition: transform 0.05s
 
-        &:hover
-          opacity: 1
-          cursor: pointer
+    div.expand-triangle.expanded:hover
+      opacity: 1
+      cursor: pointer
 
-      &.parameter-group
-        width: 100%
-        background-color: rgba(255, 255, 255, 0.2)
-        border-left: 1px solid rgba(0, 0, 0, 0.1)
-        box-sizing: border-box
+  div.parameter-group
+    width: 100%
+    background-color: rgba(255, 255, 255, 0.2)
+    border-left: 1px solid rgba(0, 0, 0, 0.1)
+    box-sizing: border-box
 
-      &.subcomponent h3.component-name
-        font-weight: 200
+    div.parameter:hover
+      .parameter-name, .value
+        color: rgba(0, 0, 0, 0.6)
 
-      &.parameter
-        position: relative
-        width: 100%
-        height: 40px
-        /*background-color: rgba(0,0,0,0.2);
-        border-top: 1px solid rgba(0, 0, 0, 0.1)
-        box-sizing: border-box
+    div.parameter
+      position: relative
+      width: 100%
+      height: 40px
+      border-top: 1px solid rgba(0, 0, 0, 0.1)
+      box-sizing: border-box
+      display: flex
+      align-items: center
+      justify-content: space-between
+      color: rgba(0, 0, 0, 0.4)
+      font-weight: 200
+      overflow: hidden
+
+      div.parameter-name
+        margin-left: 10px
+        z-index: 1
+
+        span.signal-icon
+          font-size: 22px
+          font-weight: bold
+          position: relative
+          top: 2px
+          opacity: 0.8
+
+      div.parameter-value
+        margin-right: 10px
         display: flex
-        align-items: center
-        justify-content: space-between
-        color: rgba(0, 0, 0, 0.4)
-        font-weight: 200
-        overflow: hidden
+        font-size: 20px
+        z-index: 1
 
-        &:hover div
-          &.parameter-name, &.value
-            color: rgba(0, 0, 0, 0.6)
-        &.menu
-          background-color: rgba(200, 200, 200, 1)
-          cursor: pointer
-          div.value
-            cursor: pointer
-          span.menu-icon
-            width: 1px
-            position: relative
-            top: 6px
-            height: 11px
-            border: dotted rgba(0, 0, 0, 0.3) 3px
-            box-sizing: border-box
+        div.value
+          min-width: 20px
+          width: auto
+          margin-right: 2px
+          padding: 0 2px 0 2px
+          text-align: right
+          font-size: 20px
+          display: flex
+          cursor: text
 
-        &.cslider
-          cursor: ew-resize
+        div.value:hover
+          background: rgba(255, 255, 255, 0.2)
+          cursor: text
 
-  &.parameter.hslider
-    cursor: ew-resize
+        div.value:focus
+          background: rgba(255, 255, 255, 0.8)
+          color: rgba(0, 0, 0, 0.6)
+          outline: none
 
-  &.tone-editor_component div
-    &.hslider-inner
-      position: absolute
-      top: 0
-      left: 0
-      height: 100%
-      width: 60%
-      background: rgba(200, 200, 200, 1)
-      box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.1)
-    &.cslider-inner
-      position: absolute
-      top: 0
-      left: 50%
-      height: 100%
-      width: 60px
-      background: rgba(200, 200, 200, 1)
-      box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3)
+        div.unit
+          opacity: 0.7
+          min-width: 8px
+
+    // PARAMETER TYPES
+    // PARAMETER.MENU
+    div.menu
+      background-color: rgba(200, 200, 200, 1)
+      cursor: pointer
       background: white
-    &.hslider-inner
-      background: white
-    &.parameter
-      &.menu
+
+      div.value
+        cursor: pointer
+
+      span.menu-icon
+        width: 1px
+        position: relative
+        top: 6px
+        height: 11px
+        border: dotted rgba(0, 0, 0, 0.3) 3px
+        box-sizing: border-box
+
+    // PARAMETER.CSLIDER
+    div.cslider
+      cursor: ew-resize
+
+      div.cslider-inner
+        position: absolute
+        top: 0
+        left: 50%
+        height: 100%
+        width: 60px
+        background: rgba(200, 200, 200, 1)
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3)
         background: white
-      &.cslider div.center-line
+
+      div.center-line
         width: 1px
         height: 100%
         position: absolute
@@ -183,70 +213,43 @@ div
         box-sizing: border-box
         pointer-events: none
 
-    &.parameter-name
-      margin-left: 10px
-      z-index: 1
-      span.signal-icon
-        font-size: 22px
-        font-weight: bold
-        position: relative
-        top: 2px
-        opacity: 0.8
+    // PARAMETER.HSLIDER
+    div.hslider
+      cursor: ew-resize
 
-    &.parameter-value
-      margin-right: 10px
-      display: flex
-      font-size: 20px
-      z-index: 1
-
-    &.value
-      min-width: 20px
-      width: auto
-      margin-right: 2px
-      padding: 0 2px 0 2px
-      text-align: right
-      font-size: 20px
-      display: flex
-      cursor: text
-
-      &:hover
-        background: rgba(255, 255, 255, 0.2)
-        cursor: text
-
-      &:focus
-        background: rgba(255, 255, 255, 0.8)
-        color: rgba(0, 0, 0, 0.6)
-        outline: none
-
-    &.unit
-      opacity: 0.7
-      min-width: 8px
-
-  &.tone-editor_container
-    *
-      user-select: none
-      font-family: 'Inconsolata', monospace
-
-    div.copy-all
-      width: 100%
-      height: 60px
-      position: absolute
-      left: 0
-      bottom: 0
-      background: #333
-      color: white
-      font-size: 20px
-      text-align: center
-      padding-top: 20px
-      box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.3)
-      cursor: pointer
-      &:hover
-        cursor: pointer
-      &.copied
+      div.hslider-inner
+        position: absolute
+        top: 0
+        left: 0
+        height: 100%
+        width: 60%
+        background: rgba(200, 200, 200, 1)
+        box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.1)
+        background: white
 
 
-@keyframes tone-editor_copied
-  from
-    background-color: #3C3
-  to
-    background-color: #333
+  div.copy-all
+    width: 100%
+    height: 60px
+    position: absolute
+    left: 0
+    bottom: 0
+    background: #333
+    color: white
+    font-size: 20px
+    text-align: center
+    padding-top: 20px
+    box-shadow: 0px -1px 2px rgba(0, 0, 0, 0.3)
+    cursor: pointer
+
+  div.copy-all:hover
+    cursor: pointer
+
+  div.copy-all.copied
+    animate: tone-editor_copied 1s
+
+  @keyframes tone-editor_copied
+    from
+      background-color: #3C3
+    to
+      background-color: #333
