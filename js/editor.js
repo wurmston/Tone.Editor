@@ -77,12 +77,11 @@
 //       // this.ToneParam = attribute.component
 //       this.type = attribute.type || 'slider'
 //       this.value = attribute.value
-//       this.element = '<div class="tone-editor_parameter-gui'+this.type+'"><span>'+this.parameterName+'</span><span>'+this.value+'</span></div>'
+//       this.element = '<div class="tone-editor_parameter-gui '+this.type+'"><span>'+this.parameterName+'</span><span>'+this.value+'</span></div>'
 //       this.updateValue = function() {
 //         // update value in DOM
 //         // this.element.childNodes[1].append()
 //       }
-//       this.element.className = 'tone-editor_parameter-gui ' + this.type
 //     }
 //
 //     // main init function. builds dom elements and injects them into page
@@ -225,3 +224,62 @@
 //
 //     Tone.Editor = Editor
 // })()
+
+function Editor() {
+  //where editable components are added to
+  this.components = []
+
+  var initialized = false
+  this.options = {
+    theme: 'default',
+    align: 'left',
+    autoHide: false,
+    autoHideTimeout: 3
+  }
+
+  var containerElement = createElement('div').addClass('tone-editor_container')
+
+  var _this = this
+
+  // internal function that finally adds everything to the DOM
+  function inject(options) {
+
+
+    document.body.append(containerElement)
+  }
+  // internal function that checks the parameters of each component and updates them in existing DOM elements
+  function updateValues() {
+
+  }
+
+  // API: add components to editor
+  this.add = function(component) {
+    for (var i=0; i<arguments.length;i++) {
+      //wrap Tone component
+
+      //push to array of comps
+      _this.components.push(component)
+    }
+  }
+
+  // API: show the editor
+  this.show = function() {
+    if (!initialized) {
+      inject()
+    } else {
+      updateValues()
+    }
+  }
+
+
+  this.set = function(options) {
+    _this.options = options ||  _this.options
+
+    // redraw elements
+    containerElement.innerHTML = ""
+    inject(options)
+  }
+
+
+
+}
