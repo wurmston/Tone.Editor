@@ -25,6 +25,28 @@ div.tone-editor_container {
   div.tone-editor_container * {
     user-select: none;
     font-family: 'Inconsolata'; }
+  div.tone-editor_container div.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between; }
+    div.tone-editor_container div.header h3 {
+      opacity: 0.5;
+      display: inline-block;
+      margin: 4px 0 4px 0; }
+    div.tone-editor_container div.header div.keyboard-button {
+      display: block;
+      cursor: pointer; }
+  div.tone-editor_container svg.keyboard {
+    width: 100%;
+    margin-bottom: 6px;
+    transition: height 0.15s;
+    cursor: pointer; }
+    div.tone-editor_container svg.keyboard g#labels {
+      opacity: 0.4; }
+  div.tone-editor_container svg.keyboard.collapsed {
+    height: 0;
+    margin-bottom: 0;
+    transition: height 0.15s; }
   div.tone-editor_container div.component {
     position: relative;
     background: darkGray;

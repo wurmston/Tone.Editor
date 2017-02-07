@@ -28,10 +28,6 @@ var synth = new Tone.MonoSynth({
     }
 }).connect(reverb)
 
-// Tone.Editor.add(synth)
-//
-// console.log(Tone.Editor)
-
 var ToneEditor = {
   components: [],
   _editedParameters: [],
@@ -46,8 +42,16 @@ var ToneEditor = {
   _mouseIsDown: false,
   _shiftIsDown: false,
   _optionIsDown: false,
+  _keyboardIsVisible: false,
   _copyAllButton: document.querySelectorAll('div.copy-all')[0],
+  keyboardElement: document.querySelectorAll('svg.keyboard')[0],
   containerElement: document.querySelectorAll('div.tone-editor_container')[0],
+  toggleKeyboard: function() {
+    this.keyboardElement.classList.toggle('collapsed')
+    this._keyboardIsVisible = !this._keyboardIsVisible
+    this._saveState('keyboardVisible', this._keyboardIsVisible)
+    console.log(this._keyboardIsVisible)
+  }
 }
 
 document.addEventListener('keydown', function(e) {
@@ -89,10 +93,9 @@ ToneEditor.containerElement.addEventListener('click', function(e){
     if (e.target.getAttribute('contenteditable') === 'false') {
       focusValueElement(e.target)
       document.execCommand('selectAll',false,null)
-
     }
-
-    // e.target.select()
+  } else if (e.target.hasClass('keyboard-button')) {
+    ToneEditor.toggleKeyboard()
   }
 })
 ToneEditor.containerElement.addEventListener('dblclick', function(e) {
@@ -265,6 +268,11 @@ ToneEditor._units = {
     min: -100,
     max: 10
   }
+}
+
+//STATE SAVING
+ToneEditor._saveState = function(key, value) {
+  console.log('save: '+key, value)
 }
 
 function initNexus() {

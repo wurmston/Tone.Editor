@@ -32,6 +32,35 @@ div.tone-editor_container
     user-select: none
     font-family: 'Inconsolata'
 
+  div.header
+    width: 100%
+    display: flex
+    justify-content: space-between
+
+    h3
+      opacity: 0.5
+      display: inline-block
+      margin: 4px 0 4px 0
+
+    div.keyboard-button
+      display: block
+      cursor: pointer
+
+  svg.keyboard
+    width: 100%
+    margin-bottom: 6px
+    // height: 0
+    transition: height 0.15s
+    cursor: pointer
+
+    g#labels
+      opacity: 0.4
+
+  svg.keyboard.collapsed
+    height: 0
+    margin-bottom: 0
+    transition: height 0.15s
+
   div.component.selected
 
   div.component
