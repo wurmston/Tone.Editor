@@ -12,7 +12,7 @@ del.sync(['build'])
 
 gulp.task('scripts', function() {
   // Minify and copy all JavaScript (except vendor scripts)
-  // with sourcemaps all the way down
+  // with sourcemaps all the way down 
   return gulp.src('js/*.js')
     .pipe(sourcemaps.init())
       .pipe(uglify())

@@ -33,28 +33,40 @@ var synth = new Tone.MonoSynth({
 // console.log(Tone.Editor)
 
 var ToneEditor = {
+  components: [],
+  _editedParameters: [],
+  _updateEditCount: function() {
+    if (this._editedParameters.length === 1) {
+      this._copyAllButton.classList.add('visible')
+      this._copyAllButton.innerHTML = 'copy '+this._editedParameters.length+' change'
+    } else {
+      this._copyAllButton.innerHTML = 'copy '+this._editedParameters.length+' changes'
+    }
+  },
+  _mouseIsDown: false,
+  _shiftIsDown: false,
+  _optionIsDown: false,
+  _copyAllButton: document.querySelectorAll('div.copy-all')[0],
   containerElement: document.querySelectorAll('div.tone-editor_container')[0],
-  mouseIsDown: false,
-  shiftIsDown: false,
-  optionIsDown: false
 }
+
 document.addEventListener('keydown', function(e) {
   switch (e.which) {
     case 16:
-      ToneEditor.shiftIsDown = true
+      ToneEditor._shiftIsDown = true
       break
     case 18:
-      ToneEditor.optionIsDown = true
+      ToneEditor._optionIsDown = true
       break
   }
 })
 document.addEventListener('keyup', function(e) {
   switch (e.which) {
     case 16:
-      ToneEditor.shiftIsDown = false
+      ToneEditor._shiftIsDown = false
       break
     case 18:
-      ToneEditor.optionIsDown = false
+      ToneEditor._optionIsDown = false
       break
   }
 })
@@ -90,11 +102,11 @@ ToneEditor.containerElement.addEventListener('dblclick', function(e) {
 })
 ToneEditor.containerElement.addEventListener('mousedown', function(e) {
   ToneEditor.containerElement.addClass('mouse-down')
-  ToneEditor.mouseIsDown = true
+  ToneEditor._mouseIsDown = true
 })
 ToneEditor.containerElement.addEventListener('mouseup', function(e) {
   ToneEditor.containerElement.removeClass('mouse-down')
-  ToneEditor.mouseIsDown = false
+  ToneEditor._mouseIsDown = false
 })
 
 function focusValueElement(element) {
@@ -111,10 +123,15 @@ ToneEditor.UIElement = function(parent, type, parameterName, parentToneComponent
   this.uiElement = false
   this.overwritten = false
   this.initialized = false
+
+  var _this = this
+
   this.getValue = function() { return _this.parentToneComponent.get(parameterName)[parameterName] }
   this.applyValue = function(value) {
-    if (_this.overwritten === false && _this.initialized === true) {
+    if (_this.initialized === true && _this.overwritten === false) {
       parent.addClass('overwritten')
+      ToneEditor._editedParameters.push(_this)
+      ToneEditor._updateEditCount()
       _this.overwritten = true
     }
     _this.parentToneComponent.set(parameterName, value)
@@ -122,7 +139,6 @@ ToneEditor.UIElement = function(parent, type, parameterName, parentToneComponent
     _this.valueElement.innerHTML = nx.prune(value, 2)
   }
 
-  var _this = this
   var isSignal = false
   var nxOptions = {
     parent: parent,
@@ -181,9 +197,9 @@ ToneEditor.UIElement = function(parent, type, parameterName, parentToneComponent
         //UP - increment down
         case 38:
           var incrementAmount = 1
-          if (ToneEditor.shiftIsDown) incrementAmount = 10
-          if (ToneEditor.optionIsDown) incrementAmount = 0.1
-          if (ToneEditor.shiftIsDown && ToneEditor.optionIsDown) incrementAmount = 100
+          if (ToneEditor._shiftIsDown) incrementAmount = 10
+          if (ToneEditor._optionIsDown) incrementAmount = 0.1
+          if (ToneEditor._shiftIsDown && ToneEditor._optionIsDown) incrementAmount = 100
           var value = parseFloat(_this.valueElement.innerHTML)
           _this.applyValue(value + incrementAmount)
           document.execCommand('selectAll',false,null)
@@ -192,9 +208,9 @@ ToneEditor.UIElement = function(parent, type, parameterName, parentToneComponent
         //DOWN - increment down
         case 40:
           var incrementAmount = 1
-          if (ToneEditor.shiftIsDown) incrementAmount = 10
-          if (ToneEditor.optionIsDown) incrementAmount = 0.1
-          if (ToneEditor.shiftIsDown && ToneEditor.optionIsDown) incrementAmount = 100
+          if (ToneEditor._shiftIsDown) incrementAmount = 10
+          if (ToneEditor._optionIsDown) incrementAmount = 0.1
+          if (ToneEditor._shiftIsDown && ToneEditor._optionIsDown) incrementAmount = 100
           var value = parseFloat(_this.valueElement.innerHTML)
           _this.applyValue(value - incrementAmount)
           document.execCommand('selectAll',false,null)
