@@ -46,6 +46,10 @@ div.tone-editor_container
       display: block
       cursor: pointer
 
+
+
+
+
   svg.keyboard
     width: 100%
     margin-bottom: 6px
@@ -93,6 +97,7 @@ div.tone-editor_container
         margin-left: 12px
         font-weight: 200
 
+
   div.subcomponent.expanded
     // padding-bottom: 4px
     max-height: 3000px
@@ -126,7 +131,7 @@ div.tone-editor_container
       text-decoration: underline
       cursor: pointer
 
-    div.expand-triangle
+    .expand-triangle
       width: 20px
       height: 30px
       background-image: url(../img/expand-triangle.png)
@@ -140,25 +145,46 @@ div.tone-editor_container
       cursor: pointer
       transition: transform 0.05s
 
-    div.expand-triangle.expanded
+    .expand-triangle.expanded
       transform: rotateZ(-90deg)
       transition: transform 0.05s
 
-    div.expand-triangle.expanded:hover
+    .expand-triangle.expanded:hover
       opacity: 1
-      cursor: pointer
 
-  div.parameter-group
+    .extra-buttons
+      margin-left: 10px
+      opacity: 0
+      overflow: hidden
+      transition: opacity 0.15s
+
+      *
+        cursor: pointer
+
+      .keyboard-target-button
+        opacity: 0.5
+
+      .keyboard-target-button.active
+        opacity: 1
+
+  .component-header:hover
+
+    .extra-buttons
+      opacity: 1
+      transition: opacity 0.15s
+
+
+  .parameter-group
     width: 100%
     background-color: rgba(255, 255, 255, 0.2)
     // border-left: 1px solid rgba(0, 0, 0, 0.1)
     box-sizing: border-box
 
-    div.parameter:hover
+    .parameter:hover
       .parameter-name, .value
         color: rgba(0, 0, 0, 0.6)
 
-    div.parameter::before
+    .parameter::before
       position: absolute
       content: ""
       display: block
@@ -168,15 +194,15 @@ div.tone-editor_container
       background: rgba(0,0,0,0.1)
       z-index: 10
 
-    div.parameter.overwritten
-      div.parameter-name
+    .parameter.overwritten
+      .parameter-name
         font-style: italic
 
       canvas.nx
         opacity: 1
 
 
-    div.parameter
+    .parameter
       position: relative
       width: 100%
       height: 30px
@@ -196,7 +222,7 @@ div.tone-editor_container
         opacity: 0.5
         filter: drop-shadow(1px 0px 2px rgba(0, 0, 0, 0.2))
 
-      div.parameter-name
+      .parameter-name
         margin-left: 10px
         z-index: 1
         position: relative
@@ -210,7 +236,7 @@ div.tone-editor_container
           top: 2px
           opacity: 0.8
 
-      div.parameter-value
+      .parameter-value
         margin-right: 10px
         display: flex
         font-size: 16px

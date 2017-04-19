@@ -1,10 +1,11 @@
 ## To-do
 
 #### Hi Priority
-* resolve NexusUI issue: don't draw valueText
-* slider & value updates internal data
+* select keyboard target
+* ~~slider & value updates internal data~~
 * ~~slider updates value box~~
 * ~~value box updates slider~~
+* ~~resolve NexusUI issue: don't draw valueText~~
 
 
 #### Lo Priority

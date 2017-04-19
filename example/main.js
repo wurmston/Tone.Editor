@@ -44,6 +44,7 @@ var ToneEditor = {
   _optionIsDown: false,
   _keyboardIsVisible: false,
   _copyAllButton: document.querySelectorAll('div.copy-all')[0],
+  _keyboardTarget: false,
   keyboardElement: document.querySelectorAll('svg.keyboard')[0],
   containerElement: document.querySelectorAll('div.tone-editor_container')[0],
   toggleKeyboard: function() {
@@ -51,10 +52,16 @@ var ToneEditor = {
     this._keyboardIsVisible = !this._keyboardIsVisible
     this._saveState('keyboardVisible', this._keyboardIsVisible)
     console.log(this._keyboardIsVisible)
+  },
+  showKeyboard: function() {
+    this.keyboardElement.classList.remove('collapsed')
+    this._keyboardIsVisible = true
+    this._saveState('keyboardVisible', this._keyboardIsVisible)
   }
 }
 
 document.addEventListener('keydown', function(e) {
+  console.log(e.which)
   switch (e.which) {
     case 16:
       ToneEditor._shiftIsDown = true
@@ -62,6 +69,15 @@ document.addEventListener('keydown', function(e) {
     case 18:
       ToneEditor._optionIsDown = true
       break
+    default:
+      console.log(ToneEditor._keyboardIsVisible)
+      // play keyboard if active and has target instrument
+      if (ToneEditor._keyboardIsVisible) {
+        //TODO match note
+
+        var freq = Tone.Frequency().midiToFrequency(e.which)
+        ToneEditor._keyboardTarget.triggerAttackRelease(freq, 1)
+      }
   }
 })
 document.addEventListener('keyup', function(e) {
@@ -72,6 +88,15 @@ document.addEventListener('keyup', function(e) {
     case 18:
       ToneEditor._optionIsDown = false
       break
+    default:
+      // play keyboard if active and has target instrument
+      // if (ToneEditor._keyboardIsVisible) {
+      //   console.log('playNote')
+      //
+      //   //match note
+      //   ToneEditor._keyboardTarget.triggerAttackRelease(e.which, 1)
+      //   console.log(ToneEditor._keyboardTarget)
+      // }
   }
 })
 
@@ -229,7 +254,7 @@ ToneEditor.UIElement = function(parent, type, parameterName, parentToneComponent
 
         //NUMBERS
         default:
-          if (e.which >= 48 && e.which <= 57) {
+          if (e.which >= 48 && e.which <= 57 || e.which === 189 /* negative symbol */ ) {
 
           } else {
             e.preventDefault()
@@ -272,7 +297,7 @@ ToneEditor._units = {
 
 //STATE SAVING
 ToneEditor._saveState = function(key, value) {
-  console.log('save: '+key, value)
+  // console.log('save: '+key, value)
 }
 
 function initNexus() {
@@ -283,11 +308,33 @@ function initNexus() {
 initNexus()
 
 
+ToneEditor.Component = function(toneComponent, options) {
+  this.name = options.name
+  // this.id = 'tone-component-'+Date.now()
+  this.id = this.name
+  this.class = "MonoSynth"
+  this.components = options.components || [] //fill
+  this.toneComponent = toneComponent
+  this.element = document.querySelectorAll('div.component#'+this.id)[0]
+  var _this = this
+
+  // var keyboardTargetButton = this.element.querySelector('.keyboard-target-button')
+
+  this.element.addEventListener('click', function(e) {
+    var classes = e.target.classList
+    if (classes.contains('keyboard-target-button')) {
+      console.log('booya')
+      ToneEditor.showKeyboard()
+
+      ToneEditor._keyboardTarget = _this.toneComponent
+    }
+  })
+}
 
 // -----------------------------------------
 // mock object structure
 ToneEditor.components = [
-  {
+  new ToneEditor.Component( synth, {
     name: 'synth',
     class: 'MonoSynth',
     toneComponent: synth,
@@ -295,7 +342,7 @@ ToneEditor.components = [
       new ToneEditor.UIElement(document.getElementById('frequency'), 'slider', 'frequency', synth),
       new ToneEditor.UIElement(document.getElementById('volume'), 'slider', 'volume', synth)
     ]
-  }
+  })
 ]
 
 console.log(ToneEditor)

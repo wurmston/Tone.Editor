@@ -97,7 +97,7 @@ div.tone-editor_container {
     div.tone-editor_container div.component-header a.component-class:hover {
       text-decoration: underline;
       cursor: pointer; }
-    div.tone-editor_container div.component-header div.expand-triangle {
+    div.tone-editor_container div.component-header .expand-triangle {
       width: 20px;
       height: 30px;
       background-image: url(../img/expand-triangle.png);
@@ -110,19 +110,32 @@ div.tone-editor_container {
       opacity: 0.9;
       cursor: pointer;
       transition: transform 0.05s; }
-    div.tone-editor_container div.component-header div.expand-triangle.expanded {
+    div.tone-editor_container div.component-header .expand-triangle.expanded {
       transform: rotateZ(-90deg);
       transition: transform 0.05s; }
-    div.tone-editor_container div.component-header div.expand-triangle.expanded:hover {
-      opacity: 1;
-      cursor: pointer; }
-  div.tone-editor_container div.parameter-group {
+    div.tone-editor_container div.component-header .expand-triangle.expanded:hover {
+      opacity: 1; }
+    div.tone-editor_container div.component-header .extra-buttons {
+      margin-left: 10px;
+      opacity: 0;
+      overflow: hidden;
+      transition: opacity 0.15s; }
+      div.tone-editor_container div.component-header .extra-buttons * {
+        cursor: pointer; }
+      div.tone-editor_container div.component-header .extra-buttons .keyboard-target-button {
+        opacity: 0.5; }
+      div.tone-editor_container div.component-header .extra-buttons .keyboard-target-button.active {
+        opacity: 1; }
+  div.tone-editor_container .component-header:hover .extra-buttons {
+    opacity: 1;
+    transition: opacity 0.15s; }
+  div.tone-editor_container .parameter-group {
     width: 100%;
     background-color: rgba(255, 255, 255, 0.2);
     box-sizing: border-box; }
-    div.tone-editor_container div.parameter-group div.parameter:hover .parameter-name, div.tone-editor_container div.parameter-group div.parameter:hover .value {
+    div.tone-editor_container .parameter-group .parameter:hover .parameter-name, div.tone-editor_container .parameter-group .parameter:hover .value {
       color: rgba(0, 0, 0, 0.6); }
-    div.tone-editor_container div.parameter-group div.parameter::before {
+    div.tone-editor_container .parameter-group .parameter::before {
       position: absolute;
       content: "";
       display: block;
@@ -131,11 +144,11 @@ div.tone-editor_container {
       top: 0px;
       background: rgba(0, 0, 0, 0.1);
       z-index: 10; }
-    div.tone-editor_container div.parameter-group div.parameter.overwritten div.parameter-name {
+    div.tone-editor_container .parameter-group .parameter.overwritten .parameter-name {
       font-style: italic; }
-    div.tone-editor_container div.parameter-group div.parameter.overwritten canvas.nx {
+    div.tone-editor_container .parameter-group .parameter.overwritten canvas.nx {
       opacity: 1; }
-    div.tone-editor_container div.parameter-group div.parameter {
+    div.tone-editor_container .parameter-group .parameter {
       position: relative;
       width: 100%;
       height: 30px;
@@ -146,32 +159,32 @@ div.tone-editor_container {
       color: rgba(0, 0, 0, 0.5);
       font-weight: 200;
       overflow: hidden; }
-      div.tone-editor_container div.parameter-group div.parameter canvas.nx {
+      div.tone-editor_container .parameter-group .parameter canvas.nx {
         position: absolute;
         left: 0;
         top: 0;
         opacity: 0.5;
         filter: drop-shadow(1px 0px 2px rgba(0, 0, 0, 0.2)); }
-      div.tone-editor_container div.parameter-group div.parameter div.parameter-name {
+      div.tone-editor_container .parameter-group .parameter .parameter-name {
         margin-left: 10px;
         z-index: 1;
         position: relative;
         top: -1px;
         pointer-events: none; }
-        div.tone-editor_container div.parameter-group div.parameter div.parameter-name span.signal-icon {
+        div.tone-editor_container .parameter-group .parameter .parameter-name span.signal-icon {
           font-size: 22px;
           font-weight: bold;
           position: relative;
           top: 2px;
           opacity: 0.8; }
-      div.tone-editor_container div.parameter-group div.parameter div.parameter-value {
+      div.tone-editor_container .parameter-group .parameter .parameter-value {
         margin-right: 10px;
         display: flex;
         font-size: 16px;
         z-index: 1;
         position: relative;
         top: -1px; }
-        div.tone-editor_container div.parameter-group div.parameter div.parameter-value div.value {
+        div.tone-editor_container .parameter-group .parameter .parameter-value div.value {
           min-width: 20px;
           width: auto;
           margin-right: 2px;
@@ -180,35 +193,35 @@ div.tone-editor_container {
           font-size: 16px;
           display: block;
           cursor: text; }
-        div.tone-editor_container div.parameter-group div.parameter div.parameter-value div.value::selection {
+        div.tone-editor_container .parameter-group .parameter .parameter-value div.value::selection {
           font-size: 40px;
           background: yellow;
           opacity: 1; }
-        div.tone-editor_container div.parameter-group div.parameter div.parameter-value div.value:hover {
+        div.tone-editor_container .parameter-group .parameter .parameter-value div.value:hover {
           background: rgba(0, 0, 0, 0.15);
           cursor: text; }
-        div.tone-editor_container div.parameter-group div.parameter div.parameter-value div.value:focus {
+        div.tone-editor_container .parameter-group .parameter .parameter-value div.value:focus {
           background: rgba(0, 0, 0, 0.15);
           color: rgba(0, 0, 0, 0.6);
           outline: none; }
-        div.tone-editor_container div.parameter-group div.parameter div.parameter-value div.unit {
+        div.tone-editor_container .parameter-group .parameter .parameter-value div.unit {
           opacity: 0.7;
           min-width: 8px; }
-    div.tone-editor_container div.parameter-group div.menu {
+    div.tone-editor_container .parameter-group div.menu {
       cursor: pointer;
       background: rgba(255, 255, 255, 0.5); }
-      div.tone-editor_container div.parameter-group div.menu div.value {
+      div.tone-editor_container .parameter-group div.menu div.value {
         cursor: pointer; }
-      div.tone-editor_container div.parameter-group div.menu span.menu-icon {
+      div.tone-editor_container .parameter-group div.menu span.menu-icon {
         width: 1px;
         position: relative;
         top: 4px;
         height: 11px;
         border: dotted rgba(0, 0, 0, 0.2) 3px;
         box-sizing: border-box; }
-    div.tone-editor_container div.parameter-group div.cslider {
+    div.tone-editor_container .parameter-group div.cslider {
       cursor: ew-resize; }
-      div.tone-editor_container div.parameter-group div.cslider div.cslider-inner {
+      div.tone-editor_container .parameter-group div.cslider div.cslider-inner {
         position: absolute;
         top: 0;
         left: 50%;
@@ -218,7 +231,7 @@ div.tone-editor_container {
         background: #c8c8c8;
         box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.3);
         background: white; }
-      div.tone-editor_container div.parameter-group div.cslider div.center-line {
+      div.tone-editor_container .parameter-group div.cslider div.center-line {
         width: 1px;
         height: 100%;
         position: absolute;
@@ -226,9 +239,9 @@ div.tone-editor_container {
         border: dashed rgba(0, 0, 0, 0.3) 1px;
         box-sizing: border-box;
         pointer-events: none; }
-    div.tone-editor_container div.parameter-group div.hslider {
+    div.tone-editor_container .parameter-group div.hslider {
       cursor: ew-resize; }
-      div.tone-editor_container div.parameter-group div.hslider div.hslider-inner {
+      div.tone-editor_container .parameter-group div.hslider div.hslider-inner {
         position: absolute;
         top: 0;
         left: 0;
